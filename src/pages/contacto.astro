@@ -1,0 +1,74 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Contacto — LíderA+" description="Agende una reunión de 30 minutos con LíderA+. Le mostramos la plataforma con datos reales de su establecimiento.">
+
+<section class="section section-dark" style="padding-top:5rem">
+  <div class="wrap">
+    <p class="section-label">Contacto</p>
+    <h2 class="section-title">Conversemos sobre su red</h2>
+    <p class="section-lead">Agende una reunión de 30 minutos, sin compromiso. Le mostramos la plataforma con datos reales de su establecimiento.</p>
+
+    <div class="form-grid">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div>
+            <span class="label">WhatsApp</span>
+            <a href="https://wa.me/56928033418">(+56 9) 2803 3418</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div>
+            <span class="label">Correo</span>
+            <a href="mailto:contacto@lideramas.com">contacto@lideramas.com</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div>
+            <span class="label">Ubicación</span>
+            <span class="val">Temuco, Chile — atención remota a todo el país</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form" id="contactForm">
+        <div class="form-row">
+          <input type="text" name="nombre" placeholder="Nombre" required />
+          <input type="text" name="cargo" placeholder="Cargo (Director, UTP...)" />
+        </div>
+        <div class="form-row">
+          <input type="text" name="establecimiento" placeholder="Establecimiento o red" />
+          <input type="text" name="comuna" placeholder="Comuna" />
+        </div>
+        <input type="email" name="email" placeholder="Correo electrónico" required />
+        <textarea name="mensaje" placeholder="¿Cuál es su mayor desafío de gestión?" rows="4"></textarea>
+        <button type="submit" class="btn btn-primary" style="justify-content:center">Enviar solicitud</button>
+        <p class="form-note" id="formStatus"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+document.getElementById('contactForm')?.addEventListener('submit', async function(e){
+  e.preventDefault();
+  const form = e.target;
+  const status = document.getElementById('formStatus');
+  const data = Object.fromEntries(new FormData(form));
+  status.textContent = 'Enviando...';
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('error');
+    status.textContent = '✓ Solicitud enviada. Le contactaremos en las próximas 24 hrs.';
+    form.reset();
+  } catch (err) {
+    status.textContent = 'No pudimos enviar el formulario. Escríbanos directo a contacto@lideramas.com';
+  }
+});
+</script>
+
+</Layout>

@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<Layout title="Blog — LíderA+" description="Artículos sobre liderazgo pedagógico, gestión de redes educativas e inteligencia artificial aplicada a la gestión escolar.">
+
+<section class="section section-white" style="padding-top:5rem">
+  <div class="wrap">
+    <p class="section-label">Blog</p>
+    <h2 class="section-title">Liderazgo pedagógico, gestión escolar e IA</h2>
+    <div class="blog-grid">
+      {posts.map((post) => (
+        <a class="blog-card" href={`/blog/${post.slug}/`}>
+          <span class="cat">{post.data.category}</span>
+          <h3>{post.data.title}</h3>
+          <p>{post.data.description}</p>
+          <time datetime={post.data.pubDate.toISOString()}>
+            {post.data.pubDate.toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+</Layout>

@@ -1,0 +1,36 @@
+---
+---
+<header class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/assets/logo-lideramas.jpeg" alt="LíderA+" />
+      l<span class="ia">IA</span>der<span class="ia">A</span>mas<span class="plus">+</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/producto/">Producto</a>
+      <a href="/casos-de-uso/">Casos de uso</a>
+      <a href="/blog/">Blog</a>
+      <a href="/equipo/">Equipo</a>
+      <a href="/#planes">Planes</a>
+    </nav>
+    <div class="nav-r">
+      <a href="/contacto/" class="btn btn-primary btn-sm">Agendar demo</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menú" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+(function(){
+  var t = document.getElementById('navToggle');
+  if (!t) return;
+  t.addEventListener('click', function(){
+    var links = document.querySelector('.nav-links');
+    var open = t.getAttribute('aria-expanded') === 'true';
+    t.setAttribute('aria-expanded', String(!open));
+    if (links) links.style.display = open ? 'none' : 'flex';
+  });
+})();
+</script>
